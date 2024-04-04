@@ -24,6 +24,5 @@ const scrap_actor_info = async (actor_name) =>{
     });
     return actor_info[0]
 }
-// scrap_actor_info('')
 
 module.exports={scrap_actor_info}
