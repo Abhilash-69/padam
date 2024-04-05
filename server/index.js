@@ -3,6 +3,9 @@ const app = express();
 const cors = require("cors");
 const db = require("./database");
 const {scrap_movie_name} = require("./scrap")
+const {scrap_movie_info} = require("./scrap")
+const {scrap_synopsis} = require("./scrap")
+const {scrap_movie_img} = require("./scrap")
 const {scrap_cast_and_crew} = require("./scrap");
 const {scrap_actor_info} = require("./castScrap");
 const {v4} = require("uuid4"); 
@@ -31,8 +34,9 @@ app.get("/api/m/:movie_name",async (req,res)=>{
     if(resp.rowCount===0){
         console.log("scrap")
         const obj= await scrap_movie_name(movie_name);
-        const s = await db.query("insert into movie(m_name) values($1) RETURNING *",[obj]);        
-        res.json(s.rows[0])
+        console.log(obj)
+        // const s = await db.query("insert into movie(m_name) values($1) RETURNING *",);        
+        // res.json(s.rows[0])
     }
     else{
         res.json(resp.rows[0])

@@ -1,7 +1,3 @@
 ###
 
 GET http://127.0.0.1:8000/api/a/sunny_leone_3
-
-###
-
-GET http://127.0.0.1:8000/api/m/leo_2023_2

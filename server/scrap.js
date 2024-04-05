@@ -27,11 +27,26 @@ const scrap_movie_name = async (movie_name) => {
       const $ = cheerio.load(html);
       
       $('section#movie-info').find('div.media-body').find('div.panel-body').find('ul#info').find('li.info-item').each((index, element) => {
-        const label = $(element).find('b.info-item-label').text().trim();
+        const label = $(element).find('b.info-item-label').text().trim().replace(/:/g, "");
         const value = $(element).find('span.genre, span, a, span.runtime, span.distributor, span.production-co, span.aspect-ratio').first().text().trim().replace(/\n/g, '').replace(/\s+/g, ' ');
-        movieInfo[label]=value;
+        if(label === 'Original Language'){
+            movieInfo['Original_Language']=value
+        }
+        else if(label === 'Release Date (Theaters)'){
+            movieInfo['Release_Date']=value
+        }
+        else if(label === 'Production Co'){
+          movieInfo['Production_Co']=value
+        }
+        else if(label === 'Aspect Ratio'){
+          movieInfo['Aspect_Ratio']=value
+        }
+        else{
+            movieInfo[label]=value;
+        }
+        
       });
-
+      console.log(movieInfo)
     })
     .catch(error => {
       console.error('Error:', error);
@@ -144,5 +159,5 @@ const scrap_movie_name = async (movie_name) => {
     return photos
 }
 
-
-module.exports={scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos}
+scrap_movie_info('leo_2023_2')
+module.exports={scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}
