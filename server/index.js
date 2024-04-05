@@ -3,6 +3,9 @@ const app = express();
 const cors = require("cors");
 const db = require("./database");
 const {scrap_movie_name} = require("./scrap")
+const {scrap_movie_info} = require("./scrap")
+const {scrap_synopsis} = require("./scrap")
+const {scrap_movie_img} = require("./scrap")
 const {scrap_cast_and_crew} = require("./scrap");
 const {scrap_actor_info} = require("./castScrap");
 const {v4} = require("uuid4"); 
@@ -30,13 +33,15 @@ app.get("/api/m/:movie_name",async (req,res)=>{
     let resp = await db.query(`select * from movie where m_id='${movie_name}'`);
     if(resp.rowCount===0){
         console.log("scrap")
-        const obj= await scrap_movie_name(movie_name);
-        console.log(obj)
-        // const s = await db.query("insert into movie(m_name) values($1) RETURNING *",);        
-        // res.json(s.rows[0])
+        const mov= await scrap_movie_name(movie_name);
+        const synop = await scrap_synopsis(movie_name);
+        const poster =  await scrap_movie_img(movie_name);
+        const info = await scrap_movie_info(movie_name);
+        const s = await db.query("insert into movie(m_name,synopsis,poster,genre,original_language,director,producer,writer,release_date_theaters,runtime,distributor,production_co,aspect_ratio) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *",[mov,synop,poster,info.Genre,info.Original_Language,info.Director,info.Producer,info.Writer,info.Release_Date,info.Runtime,info.Distributor,info.Production_Co,info.Aspect_Ratio]);       
+        res.json(s.rows[0])
     }
     else{
-        // res.json(resp.rows[0])
+        res.json(resp.rows[0])
     }
 })
 
