@@ -39,24 +39,22 @@ CREATE TABLE IF NOT EXISTS CREW(
     c_name text,
     birthday text,
     birthplace text,
-    about text
-);
-
-
-
-CREATE TABLE IF NOT EXISTS CREW_IMAGE(
-    c_id int ,
-    Foreign Key (c_id) REFERENCES CREW(c_id),
+    about text,
     c_image text
 );
+
+
 
 CREATE TABLE IF NOT EXISTS ACTS(
     m_id text ,
     FOREIGN KEY (m_id) REFERENCES MOVIE (m_id),
     c_id int ,
-    Foreign Key (c_id) REFERENCES CREW(c_id)
+    Foreign Key (c_id) REFERENCES CREW(c_id),
+    character TEXT,
+    cc_image TEXT
 
 );
+
 CREATE TABLE IF NOT EXISTS OTT(
     o_id SERIAL PRIMARY KEY
 );

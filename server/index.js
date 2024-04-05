@@ -31,12 +31,11 @@ app.get("/api/m/:movie_name",async (req,res)=>{
     if(resp.rowCount===0){
         console.log("scrap")
         const obj= await scrap_movie_name(movie_name);
-        console.log(obj)
-        // const s = await db.query("insert into movie(m_name) values($1) RETURNING *",);        
-        // res.json(s.rows[0])
+        const s = await db.query("insert into movie(m_name) values($1) RETURNING *",[obj]);        
+        res.json(s.rows[0])
     }
     else{
-        // res.json(resp.rows[0])
+        res.json(resp.rows[0])
     }
 })
 
