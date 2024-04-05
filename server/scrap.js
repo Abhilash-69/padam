@@ -46,7 +46,6 @@ const scrap_movie_name = async (movie_name) => {
         }
         
       });
-      console.log(movieInfo)
     })
     .catch(error => {
       console.error('Error:', error);
@@ -159,5 +158,4 @@ const scrap_movie_name = async (movie_name) => {
     return photos
 }
 
-scrap_movie_info('leo_2023_2')
 module.exports={scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}
