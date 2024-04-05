@@ -49,6 +49,7 @@ app.get("/api/m/:movie_name",async (req,res)=>{
         const c =await db.query("insert into acts(m_id,c_id,character,cc_image) values($1,$2,$3,$4) RETURNING *",[crew.])
     }
     else{
+        console.log(resp.rowCount)
         res.json(resp.rows[0])
     }
 })
