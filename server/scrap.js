@@ -46,7 +46,6 @@ const scrap_movie_name = async (movie_name) => {
         }
         
       });
-      console.log(movieInfo)
     })
     .catch(error => {
       console.error('Error:', error);

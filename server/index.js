@@ -37,10 +37,11 @@ app.get("/api/m/:movie_name",async (req,res)=>{
         const synop = await scrap_synopsis(movie_name);
         const poster =  await scrap_movie_img(movie_name);
         const info = await scrap_movie_info(movie_name);
-        const s = await db.query("insert into movie(m_name,synopsis,poster,genre,original_language,director,producer,writer,release_date_theaters,runtime,distributor,production_co,aspect_ratio) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *",[mov,synop,poster,info.Genre,info.Original_Language,info.Director,info.Producer,info.Writer,info.Release_Date,info.Runtime,info.Distributor,info.Production_Co,info.Aspect_Ratio]);       
+        const s = await db.query("insert into movie(m_id,m_name,synopsis,poster,genre,original_language,director,producer,writer,release_date_theaters,runtime,distributor,production_co,aspect_ratio) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *",[movie_name,mov,synop,poster,info.Genre,info.Original_Language,info.Director,info.Producer,info.Writer,info.Release_Date,info.Runtime,info.Distributor,info.Production_Co,info.Aspect_Ratio]);       
         res.json(s.rows[0])
     }
     else{
+        console.log(resp.rowCount)
         res.json(resp.rows[0])
     }
 })
