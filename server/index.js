@@ -7,7 +7,9 @@ const {scrap_movie_info} = require("./scrap")
 const {scrap_synopsis} = require("./scrap")
 const {scrap_movie_img} = require("./scrap")
 const {scrap_cast_and_crew} = require("./scrap");
+const {scrap_movie_photos} = require("./scrap")
 const {scrap_actor_info} = require("./castScrap");
+const {scrap_ott} = require("./scrap");
 const {v4} = require("uuid4"); 
 app.use(cors());
 app.use(express.json())
@@ -37,8 +39,14 @@ app.get("/api/m/:movie_name",async (req,res)=>{
         const synop = await scrap_synopsis(movie_name);
         const poster =  await scrap_movie_img(movie_name);
         const info = await scrap_movie_info(movie_name);
-        const s = await db.query("insert into movie(m_id,m_name,synopsis,poster,genre,original_language,director,producer,writer,release_date_theaters,runtime,distributor,production_co,aspect_ratio) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *",[movie_name,mov,synop,poster,info.Genre,info.Original_Language,info.Director,info.Producer,info.Writer,info.Release_Date,info.Runtime,info.Distributor,info.Production_Co,info.Aspect_Ratio]);       
+        const images = await scrap_movie_photos(movie_name);
+        const crew = await scrap_cast_and_crew(movie_name);
+        const ott = await scrap_ott(movie_name);
+        const s = await db.query("insert into movie(m_name,synopsis,poster,genre,original_language,director,producer,writer,release_date_theaters,runtime,distributor,production_co,aspect_ratio) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *",[mov,synop,poster,info.Genre,info.Original_Language,info.Director,info.Producer,info.Writer,info.Release_Date,info.Runtime,info.Distributor,info.Production_Co,info.Aspect_Ratio]);       
         res.json(s.rows[0])
+        const b = await db.query("insert into movie_image(m_id,m_image) values($1,$2) RETURNING *",[movie_name,images]);
+        res.json(b.rows[0])
+        const c =await db.query("insert into acts(m_id,c_id,character,cc_image) values($1,$2,$3,$4) RETURNING *",[crew.])
     }
     else{
         console.log(resp.rowCount)
