@@ -79,10 +79,11 @@ const scrap_movie_name = async (movie_name) => {
       $('section#cast-and-crew .cast-and-crew-item').each((index, element) => {
         const actorName = $('a', element).text().trim();
         const characterName = $('p[class="p--small"]', element).text().trim().replace(/\n/g, '').replace(/\s+/g, ' ');
-        const imageUrl = $('img', element).attr('src');
+        let imageUrl = $('img', element).attr('src');
+        imageUrl = imageUrl.substring(70);
         castCrew.push({actorName,characterName,imageUrl});
       });
-      console.log(castCrew);
+
     })
     .catch(error => {
       console.error('Error:', error);
@@ -104,7 +105,7 @@ const scrap_movie_name = async (movie_name) => {
         const ottLink = $(elem).attr('href');
 
         ottData.push({ ottName, ottLink });
-        console.log(ottData)
+
       });
     })
 
@@ -188,6 +189,6 @@ const scrap_search = async (movie_name) => {
     return search;
 }
 
-// scrap_movie_photos('leo_2023_2')
+// scrap_cast_and_crew('leo_2023_2')
 // scrap_movie_info('leo_2023_2')
 module.exports={scrap_search,scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}

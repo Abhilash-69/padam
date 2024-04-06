@@ -9,3 +9,11 @@ GET http://127.0.0.1:8000/api/m/leo_2023_2
 ###
 
 GET http://127.0.0.1:8000/api/search/leo
+
+###
+
+GET http://127.0.0.1:8000/api/ott/leo_2023_2
+
+###
+
+GET http://127.0.0.1:8000/api/photos/leo_2023_2

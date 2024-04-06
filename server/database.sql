@@ -50,7 +50,9 @@ CREATE TABLE IF NOT EXISTS MOVIE_IMAGE
 CREATE TABLE IF NOT EXISTS CREW(
     m_id text ,
     FOREIGN KEY (m_id) REFERENCES MOVIE (m_id),
-    c_name text
+    c_name text,
+    c_link text,
+    c_role text
     -- Foreign Key (c_name) REFERENCES ACTOR(c_name),
     -- Primary Key(m_id,c_name),
 ); 

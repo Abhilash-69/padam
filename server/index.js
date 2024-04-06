@@ -109,7 +109,7 @@ app.get("/api/m/:movie_name",async (req,res)=>{
             const b = await db.query("insert into movie_image(m_id,m_image) values($1,$2) RETURNING *",[movie_name,img.photo]);
         }
         for(const actor of crew){
-            const c = await db.query("insert into crew(m_id,c_name) values($1,$2) RETURNING *",[movie_name,actor.actorName]);
+            const c = await db.query("insert into crew(m_id,c_name,c_link,c_role) values($1,$2,$3,$4) RETURNING *",[movie_name,actor.actorName,actor.imageUrl,actor.characterName]);
         }
         for(const ot of ott){
             const o = await db.query("insert into ott(m_id,o_name,o_link) values($1,$2,$3) RETURNING *",[movie_name,ot.ottName,ot.ottLink]);   
@@ -127,6 +127,27 @@ app.get("/api/search/:search_key", async (req,res) =>{
     const s = await scrap_search(search_key);
     console.log(s);
     res.json(s);
+})
+
+app.get("/api/ott/:movie_name", async (req,res) => {
+    const movie_name = req.params.movie_name;
+    const ott = await scrap_ott(movie_name);
+    const resp = await db.query(`SELECT * FROM ott WHERE m_id = $1`, [movie_name]);
+    res.json(resp.rows);
+})
+
+app.get("/api/cast/:movie_name", async (req,res) => {
+    const movie_name = req.params.movie_name;
+    const ott = await scrap_cast_and_crew(movie_name);
+    const resp = await db.query(`SELECT * FROM crew WHERE m_id = $1`, [movie_name]);
+    res.json(resp.rows);
+})
+
+app.get("/api/photos/:movie_name", async (req,res) => {
+    const movie_name = req.params.movie_name;
+    const photos = await scrap_movie_photos(movie_name);
+    const resp = await db.query(`SELECT * FROM movie_image WHERE m_id = $1`, [movie_name]);
+    res.json(resp.rows);
 })
 
 app.listen(8000,()=>{
