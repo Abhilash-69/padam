@@ -44,7 +44,6 @@ const scrap_movie_name = async (movie_name) => {
         else{
             movieInfo[label]=value;
         }
-        
       });
     })
     .catch(error => {
@@ -81,9 +80,9 @@ const scrap_movie_name = async (movie_name) => {
         const actorName = $('a', element).text().trim();
         const characterName = $('p[class="p--small"]', element).text().trim().replace(/\n/g, '').replace(/\s+/g, ' ');
         const imageUrl = $('img', element).attr('src');
-        castCrew.push({ actorName, characterName, imageUrl });
+        castCrew.push({actorName,characterName,imageUrl});
       });
-      // console.log(castCrew);
+      console.log(castCrew);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -105,6 +104,7 @@ const scrap_movie_name = async (movie_name) => {
         const ottLink = $(elem).attr('href');
 
         ottData.push({ ottName, ottLink });
+        console.log(ottData)
       });
     })
 
@@ -123,10 +123,11 @@ const scrap_movie_name = async (movie_name) => {
       const html = response.data;
       const $ = cheerio.load(html);
 
-      const mv_img = $('tile-dynamic.thumbnail rt-img').attr('src')
-
+      let mv_img = $('tile-dynamic.thumbnail rt-img').attr('src')
+      mv_img = mv_img.substring(70)
       mv=mv_img;
     })
+    
 
     .catch(error => {
       console.error('Error:', error);
@@ -145,10 +146,11 @@ const scrap_movie_name = async (movie_name) => {
 
 
       $('rt-img').each((index, element) => {
-        const photo = $(element).attr('src')
-        photos.push(photo)
+        let photo = $(element).attr('src')
+        photo = photo.substring(70)
+        photos.push({photo})
+        
       });
-
 
     })
 
@@ -158,5 +160,34 @@ const scrap_movie_name = async (movie_name) => {
     return photos
 }
 
-scrap_movie_info('leo_2023_2')
-module.exports={scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}
+const scrap_search = async (movie_name) => {
+  const url = `https://www.rottentomatoes.com/search?search=${movie_name}`;
+
+  let search=[]
+  await axios.get(url)
+    .then(response => {
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      const movieResults = $('search-page-result[type="movie"]');
+
+      movieResults.find('search-page-media-row').each((index, element) => {
+        const movieTitle = $('a[slot="title"]',element).text().trim();
+        let movieLink = $('a', element).attr('href');
+        if(movieLink.match('https:\/\/www\.rottentomatoes\.com\/m\/.*')){
+          movieLink = movieLink.substring(33)
+        }
+        let movieImage = $('img', element).attr('src');
+        movieImage = movieImage.substring(76)
+        search.push({ movieTitle, movieLink, movieImage });
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+    return search;
+}
+
+// scrap_movie_photos('leo_2023_2')
+// scrap_movie_info('leo_2023_2')
+module.exports={scrap_search,scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}

@@ -50,12 +50,14 @@ CREATE TABLE IF NOT EXISTS MOVIE_IMAGE
 CREATE TABLE IF NOT EXISTS CREW(
     m_id text ,
     FOREIGN KEY (m_id) REFERENCES MOVIE (m_id),
-    c_name text  ,
+    c_name text
     -- Foreign Key (c_name) REFERENCES ACTOR(c_name),
     -- Primary Key(m_id,c_name),
 ); 
 
 CREATE TABLE IF NOT EXISTS OTT(
+    m_id text,
+    FOREIGN KEY (m_id) REFERENCES MOVIE (m_id),
     o_name Text Primary Key,
     o_link Text 
 );
@@ -73,7 +75,7 @@ CREATE TABLE IF NOT EXISTS WATCH(
 );
 
 CREATE TABLE IF NOT EXISTS USERS(
-    u_id SERIAL PRIMARY KEY,
+    u_id text PRIMARY KEY,
     u_type varchar(20) CHECK (u_type IN('critics','audience')) ,
     u_name varchar(50),
     email text,
@@ -90,9 +92,9 @@ CREATE TABLE IF NOT EXISTS USER_REVIEW(
 );
 
 
- DELETE FROM MOVIE WHERE M_ID='leo_2023_2';
+--  DELETE FROM MOVIE WHERE M_ID='leo_2023_2';
 
-SELECT * from MOVIE;
+-- SELECT * from MOVIE;
 
 
 

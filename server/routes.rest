@@ -5,3 +5,7 @@ GET http://127.0.0.1:8000/api/a/joseph_vijay
 ###
 
 GET http://127.0.0.1:8000/api/m/leo_2023_2
+
+###
+
+GET http://127.0.0.1:8000/api/search/leo
