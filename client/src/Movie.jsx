@@ -5,34 +5,29 @@ import { useParams } from "react-router-dom";
 export const Movie = () => {
     const { movie_name } = useParams();
     const [movieData, setMovieData] = useState(null);
-    const [ottData, setottData] = useState(null);
-    const [castData, setcastData] = useState(null);
-    const [imgData, setimgData] = useState(null);
+    const [ottData, setottData] = useState([]);
+    const [castData, setcastData] = useState([]);
+    const [imgData, setimgData] = useState([]);
     // const [review, setReview] = useState("");
     // const [reviews,setReviews] = useState([])
     // const [s,setS] = useState(a);
     useEffect(() => {
         setMovieData(null);
-        setottData(null);
         axios.get(`http://127.0.0.1:8000/api/m/${movie_name}`).then((res) => {
             console.log(res.data);
             setMovieData(res.data);
         })
         axios.get(`http://127.0.0.1:8000/api/ott/${movie_name}`).then((ottRes) => {
             console.log(ottRes.data);
-            const ottarray = [ottRes.data];
-            setottData(ottarray);
+            setottData(ottRes.data);
         });
         axios.get(`http://127.0.0.1:8000/api/cast/${movie_name}`).then((castRes) => {
             console.log(castRes.data);
-            const castarray = [castRes.data];
-            console.log(castarray);
-            setcastData(castarray);
+            setcastData(castRes.data);
         });
         axios.get(`http://127.0.0.1:8000/api/photos/${movie_name}`).then((imgRes) => {
             console.log(imgRes.data);
-            const imgarray = [imgRes.data];
-            setimgData(imgarray);
+            setimgData(imgRes.data);
         });
     }, [movie_name]);
     return (
@@ -113,7 +108,7 @@ export const Movie = () => {
                         </ul>
                     </div>
                 </section>
-                {Array.isArray(ottData) && ottData != null ? (
+                { ottData.length != null ? (
                     <section>
                         <h1 className="text-2xl mt-12 mx-16  px-2 border-l-4 italic font-bold border-red-700">
                             Where to Watch
@@ -162,7 +157,7 @@ export const Movie = () => {
                     </section>
                 ) : null}
 
-                {Array.isArray(castData) && castData.length > 0 ? (
+                { castData.length != 0 ? (
                     <section>
                         <h1 className="text-2xl mt-12 mx-16  px-2 border-l-4 italic font-bold border-red-700">
                             Cast & Crew
@@ -171,9 +166,9 @@ export const Movie = () => {
                             <ul className="mx-24 flex flex-1 overflow-auto gap-x-4">
 
                                 {castData.map((val, ind) => (
-                                    <li className="">
+                                    <li id={ind} className="">
                                         <div>
-                                            <img src={val.c_name} alt="" id={ind} className="min-w-[150px] max-w-[150px]" />
+                                            <img src={val.c_link} alt="" id={ind} className="min-w-[150px] max-w-[150px]" />
                                             <label htmlFor={ind} className="text-xl">{val.c_name}</label>
                                         </div>
                                         <span className="text-red-700">
@@ -186,7 +181,7 @@ export const Movie = () => {
                     </section>
                 ) : null}
 
-                {Array.isArray(imgData) ? (
+                {imgData.length != null ? (
                     <section>
                         <h1 className="text-2xl mt-12 mx-16  px-2 border-l-4 italic font-bold border-red-700">
                             {movieData.m_name} photos
@@ -195,7 +190,7 @@ export const Movie = () => {
                             <ul className="mx-24 flex flex-1 overflow-auto gap-x-4">
 
                                 {imgData.map((val, ind) => (
-                                    <li className="flex items-center">
+                                    <li id={ind} className="flex items-center">
                                         <div>
                                             <img src={val.m_image} alt="" id={ind} className="min-w-[150px] max-w-[150px]" />
                                         </div>

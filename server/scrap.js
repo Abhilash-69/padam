@@ -146,13 +146,13 @@ const scrap_movie_name = async (movie_name) => {
       const $ = cheerio.load(html);
 
 
-      $('rt-img').each((index, element) => {
+      $('section#photos-module').find('rt-img').each((index, element) => {
         let photo = $(element).attr('src')
         photo = photo.substring(70)
         photos.push({photo})
         
       });
-
+      console.log(photos)
     })
 
     .catch(error => {
@@ -189,6 +189,6 @@ const scrap_search = async (movie_name) => {
     return search;
 }
 
-// scrap_cast_and_crew('leo_2023_2')
+scrap_movie_photos('leo_2023_2')
 // scrap_movie_info('leo_2023_2')
 module.exports={scrap_search,scrap_movie_info,scrap_synopsis,scrap_cast_and_crew,scrap_movie_img,scrap_movie_name,scrap_movie_photos,scrap_ott}
