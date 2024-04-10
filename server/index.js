@@ -61,6 +61,9 @@ app.listen(8000,()=>{
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const bodyParser = require('body-parser');
+const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
 const db = require("./database");
 const {scrap_movie_name} = require("./scrap")
 const {scrap_movie_info} = require("./scrap")
@@ -74,6 +77,7 @@ const {scrap_search} = require("./scrap");
 const {v4} = require("uuid4"); 
 app.use(cors());
 app.use(express.json())
+app.use(bodyParser.json());
 /*
 app.get("/api/a/:actor_name",async (req,res)=>{
     const actor_name = req.params.actor_name;
@@ -91,6 +95,16 @@ app.get("/api/a/:actor_name",async (req,res)=>{
     }
 })
 */
+app.post('/api/register', async (req, res) => {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      'INSERT INTO users (u_name, email, passwd) VALUES ($1, $2, $3) RETURNING *',
+      [name, email, hashedPassword]
+    );
+    res.json({ user: result.rows[0] });
+  });
+
 app.get("/api/m/:movie_name",async (req,res)=>{
     const movie_name = req.params.movie_name;
     console.log(movie_name);
