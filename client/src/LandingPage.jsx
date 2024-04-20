@@ -3,7 +3,30 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MovieCard } from './MovieCard';
 
-export const LandingPage = () => {
+const url = "http://localhost:3000/auth/"
+
+export const LandingPage = ({setAuth}) => {
+    const [name, setName] = useState({})
+
+    useEffect(() => {
+      getProfile()
+    }, [])
+  
+    const getProfile = () =>{
+      axios.get(`${url}`, {
+        headers: {token: localStorage.getItem('token')}
+      }).then((response) => {
+        setName(response.data)
+      })
+    }
+  
+    const logOut = () => {
+      if(name){
+        localStorage.clear("token")
+        setAuth(false)
+        toast.success("LogOut Successful")
+      }
+    }
     const navigate = useNavigate();
     const [searchResult, setSearchResult] = useState(null);
     const [movieName, setMovieName] = useState();
@@ -27,6 +50,7 @@ export const LandingPage = () => {
       };
     return (
         <main className='max-w-screen min-h-screen bg-[rgb(0,0,0,0.9)] '>
+            <h2>Welcome {name.user_name}</h2>
             <div className='flex justify-center sticky top-4'>
                 <div className="w-1/2 px-12 flex ">
                     <input type="text" onChange={(e) => setMovieName(e.target.value)} className="w-full bg-[rgba(255,255,255,0.25)] backdrop-blur-xl p-6 rounded-l-lg text-xl outline-none text-white" placeholder="Search by movies" />

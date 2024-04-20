@@ -76,19 +76,19 @@ CREATE TABLE IF NOT EXISTS WATCH(
 
 );
 
-CREATE TABLE IF NOT EXISTS USERS(
-    u_id uuid default uuid_generate_v4 () PRIMARY KEY,
-    u_name varchar(50),
-    email text,
-    passwd text
+CREATE TABLE IF NOT EXISTS users (
+    user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_name VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    user_password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS USER_REVIEW(
     r_id SERIAL PRIMARY KEY,
     m_id TEXT ,
     FOREIGN KEY (m_id) REFERENCES MOVIE (m_id),
-    u_id uuid,
-    FOREIGN KEY (u_id) REFERENCES USERS(u_id),
+    user_id uuid,
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id),
     review TEXT
 );
 
