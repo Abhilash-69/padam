@@ -11,7 +11,7 @@ import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard';
 
-const url = "http://localhost:3000/auth"
+const url = "http://localhost:8000/auth"
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -43,9 +43,10 @@ function App() {
       <Router>
         <Routes>
           {/* <Route path='/' Component={LandingPage}/> */}
-          <Route path='/' element={isAuthenticated ? <LandingPage setAuth={setAuth} />: <Navigate to="/login" replace />}/>
-          <Route path='/login' element={!isAuthenticated? <Login setAuth={setAuth} />: <Navigate to="/" />}/>
-          <Route path='/register' element={!isAuthenticated ? <Register setAuth={setAuth} />: <Navigate to="/"/>}/>
+          {/* <Route path='/' element={isAuthenticated ? <LandingPage setAuth={setAuth} />: <Navigate to="/login" replace />}/> */}
+          <Route path='/' element={isAuthenticated ? <Dashboard setAuth={setAuth} />: <Navigate to="/login" replace />}/>
+          <Route path='/login' element={!isAuthenticated? <Login setAuth={setAuth} />: <Navigate to="/" replace/>}/>
+          <Route path='/register' element={!isAuthenticated ? <Register setAuth={setAuth} />: <Navigate to="/" replace/>}/>
           <Route path='/m/:movie_name' Component={Movie}/>
           <Route path="/card" Component={MovieCard}/>
         </Routes>

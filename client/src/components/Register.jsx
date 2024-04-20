@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import cine from 'C:/Users/Samridhaa/OneDrive/Desktop/Padam/React-Express-Postgres/client/src/assets/1.png';
 import coll from 'C:/Users/Samridhaa/OneDrive/Desktop/Padam/React-Express-Postgres/client/src/assets/gandr-collage2.jpg';
 
-const url = "http://localhost:3000/auth"
+const url = "http://localhost:8000/auth"
 
 const Register = ({setAuth}) => {
     const navigate = useNavigate();
@@ -144,7 +144,7 @@ const Register = ({setAuth}) => {
                   <label htmlFor="audience" style={radioLabelStyles}>Audience</label>
                 </div>
               </div> */}
-              <button type="submit" className="button" style={buttonStyles} onClick={handleClick}>
+              <button type="submit" className="button" style={buttonStyles} >
                 REGISTER
               </button>
             </form>

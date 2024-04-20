@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-const url = "http://localhost:3000/auth/"
+const url = "http://localhost:8000/auth/"
 
 const Dashboard = ({setAuth}) => {
   const [name, setName] = useState({})

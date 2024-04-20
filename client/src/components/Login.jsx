@@ -8,7 +8,7 @@ import coll from 'C:/Users/Samridhaa/OneDrive/Desktop/Padam/React-Express-Postgr
 
 
 
-const url = "http://localhost:3000/auth"
+const url = "http://localhost:8000/auth"
 
 const Login = ({ setAuth }) => {
     const navigate = useNavigate();

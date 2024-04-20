@@ -8,8 +8,8 @@ drop table if EXISTS CREW_IMAGE;
 drop table if EXISTS CREW_NAME;
 drop table if EXISTS CREW;
 drop table if EXISTS OTT;
-drop table if EXISTS MOVIE;
 drop table if EXISTS ACTOR;
+drop table if EXISTS MOVIE;
 
 CREATE TABLE IF NOT EXISTS MOVIE(
     m_id text PRIMARY KEY,
